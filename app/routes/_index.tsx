@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Pagination } from "@nextui-org/react";
+import { Pagination, Button } from "@nextui-org/react";
 import { prisma } from "~/prisma.server";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
@@ -42,7 +42,11 @@ export default function Index() {
 
   return (
     <div>
-      <div className="p-12 flex flex-col gap-4">
+      <Link to={'/posts/new'} className="text-xl" prefetch="intent">
+        New
+      </Link>
+
+      <div className="p-12 flex flex-col gap-4">  
         {loaderData.posts.map(post => {
           return (
             <div key={post.id}>
