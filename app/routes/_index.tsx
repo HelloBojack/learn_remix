@@ -1,11 +1,18 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Pagination, Button } from "@nextui-org/react";
 import { prisma } from "~/prisma.server";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
+import { auth } from '../session.server'
+
 
 const PAGE_SIZE = 1
 export const loader = async ({ request }) => {
+  const user = await auth(request)
+  if (!user.username) {
+    return redirect("/signin")
+  }
+
   const searchParams = new URL(request.url).searchParams;
   const page = searchParams.get('page') || 1
 
